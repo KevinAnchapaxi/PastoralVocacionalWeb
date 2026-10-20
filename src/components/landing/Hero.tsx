@@ -6,7 +6,7 @@ import styles from "./landing.module.css";
 
 export function Hero() {
   return (
-    <section className={styles.hero} aria-labelledby="hero-titulo">
+    <section id="inicio" className={styles.hero} aria-labelledby="hero-titulo">
       <div className={styles.hero_bg} aria-hidden="true">
         {hero.foto ? (
           <ContentImage src={hero.foto} alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />

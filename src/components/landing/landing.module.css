@@ -282,9 +282,10 @@
   text-transform: uppercase;
   color: var(--azul-mar-profundo);
   text-decoration: none;
+  transition: border-color 0.2s ease;
 }
 .nav_link:hover,
-.nav_link[aria-current="page"] {
+.nav_link[aria-current] {
   border-bottom-color: var(--rojo-compromiso);
   color: var(--azul-mar-profundo);
 }
@@ -340,6 +341,8 @@
   display: flex;
   align-items: center;
   padding: var(--space-16) 0 140px;
+  /* «Inicio» vuelve al tope de la página, no al borde de la portada bajo la barra. */
+  scroll-margin-top: 88px;
 }
 .hero_bg {
   position: absolute;

@@ -31,6 +31,7 @@ con el código en `public/brand/`.
 | Lenguaje | TypeScript en modo estricto, alias `@/*` → `src/*` |
 | Fuentes | `next/font/google` (Poppins, Cormorant Garamond), autoalojadas en la compilación |
 | Imágenes | `next/image` + loader de Cloudinary para fotos; optimizador de Next.js para `/public` |
+| Íconos del sitio | `src/app/icon.png` (512 px, esquinas transparentes) y `src/app/apple-icon.png` (180 px, opaco: iOS lo redondea), generados a partir de `public/brand/logotipo-negativo-cuadro.png` |
 | Calidad | ESLint (`eslint-config-next`), Vitest + Testing Library (jsdom) |
 | Runtime | Node.js 24 LTS, npm 11 |
 
@@ -90,7 +91,7 @@ caben en una rejilla de 3 × 2 y quedan todos a la vista.
   `next build`). Solo se añadirán capacidades de servidor cuando un caso de uso
   lo exija (formulario de contacto, integración con Instagram).
 - **Server Components por defecto.** Solo son Client Components `Navbar` (menú
-  móvil), `ContentImage` (el `loader` de `next/image` es una función y no puede
+  móvil y sección activa), `ContentImage` (el `loader` de `next/image` es una función y no puede
   pasarse desde un Server Component) e `InstagramEmbeds` (carga diferida del
   script de Instagram).
 - **Sin abstracciones especulativas.** Las carpetas por funcionalidad
@@ -161,8 +162,18 @@ Se usan los **embeds oficiales** de Instagram por publicación
 Plantilla en `.env.example`. Si falta la variable y una foto usa un ID público,
 la compilación falla con un mensaje que indica cómo corregirlo.
 
+## Menú: sección activa
+
+`Navbar` observa cada `main section[id]` con un `IntersectionObserver` cuya
+franja está al 40 % del alto de la pantalla. El enlace de la sección que cruza
+esa franja recibe `aria-current="location"` y se subraya en rojo. Instagram y
+Otras áreas no tienen enlace en el menú, así que ahí no se marca ninguno. El
+ancla `#inicio` está en la portada (`Hero`), no en la barra.
+
 ## Pruebas
 
+- `src/test/navbar.test.tsx`: sección activa del menú (con `IntersectionObserver`
+  simulado).
 - `src/test/page.test.tsx`: estructura semántica, orden de las secciones,
   marcadores de video accesibles, etiqueta de testimonios provisionales y enlaces
   de las otras áreas (pestaña nueva, sin la Vocacional).

@@ -21,7 +21,6 @@ export const metadata: Metadata = {
   title: "Pastoral Vocacional · Arquidiócesis de Quito",
   description:
     "La Pastoral Vocacional Arquidiocesana acompaña a niños, adolescentes y jóvenes de Quito en el discernimiento de la voluntad de Dios para sus vidas.",
-  icons: { icon: "/brand/logotipo-negativo-cuadro.png" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

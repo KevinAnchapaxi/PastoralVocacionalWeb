@@ -1,16 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { nav, site } from "@/data/landing";
 import { Icon } from "./Icon";
 import styles from "./landing.module.css";
 
+/**
+ * Sección que cruza una franja delgada al 40 % del alto de la pantalla. Las
+ * secciones sin enlace en el menú (Instagram, Otras áreas) no marcan ninguno.
+ */
+function useSeccionActiva() {
+  const [activa, setActiva] = useState<string>(nav[0].id);
+
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((e) => e.isIntersecting);
+        if (visible) setActiva(visible.target.id);
+      },
+      { rootMargin: "-40% 0px -59% 0px" },
+    );
+    document.querySelectorAll("main section[id]").forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
+  return activa;
+}
+
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const activa = useSeccionActiva();
 
   return (
-    <header id="inicio" className={styles.nav}>
+    <header className={styles.nav}>
       <div className={`${styles.container} ${styles.nav_inner}`}>
         <a href="#inicio" aria-label={`${site.nombre}, ${site.organizacion}`}>
           <Image
@@ -25,9 +49,9 @@ export function Navbar() {
 
         <nav aria-label="Principal">
           <ul className={styles.nav_links}>
-            {nav.map((item, i) => (
+            {nav.map((item) => (
               <li key={item.id}>
-                <a href={`#${item.id}`} className={styles.nav_link} aria-current={i === 0 ? "page" : undefined}>
+                <a href={`#${item.id}`} className={styles.nav_link} aria-current={item.id === activa ? "location" : undefined}>
                   {item.label}
                 </a>
               </li>
@@ -57,7 +81,13 @@ export function Navbar() {
       {open ? (
         <nav id="menu-movil" aria-label="Principal (móvil)" className={`${styles.container} ${styles.nav_mobile}`}>
           {nav.map((item) => (
-            <a key={item.id} href={`#${item.id}`} className={styles.nav_link} onClick={() => setOpen(false)}>
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              className={styles.nav_link}
+              aria-current={item.id === activa ? "location" : undefined}
+              onClick={() => setOpen(false)}
+            >
               {item.label}
             </a>
           ))}
