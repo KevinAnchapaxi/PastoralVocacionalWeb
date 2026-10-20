@@ -6,8 +6,8 @@
 
 | Componente | Estado | Detalle |
 |---|---|---|
-| Repositorio | Activo | GitHub: `KevinAnchapaxi/PastoralVocacionalWeb` |
-| Imágenes | Activo | Cloudinary, plan gratuito |
+| Repositorio | Activo | GitHub: `KevinAnchapaxi/CloudinaryPastoralVocacionalWeb` |
+| Imágenes | Activo | Cloudinary, plan gratuito, cloud name `lywalzfq`, carpetas dinámicas |
 | Hosting del sitio | **Pendiente** | La planificación inicial menciona Azure Static Web Apps como opción |
 | Dominio y DNS | **Pendiente** | — |
 | CI/CD | **Pendiente** | Hoy lint, pruebas y build se ejecutan a mano |
@@ -48,8 +48,17 @@ momento de la primera solicitud y la guarda en caché.
 1. Crear la cuenta en <https://cloudinary.com> con un correo institucional de la
    pastoral (no personal), para que la cuenta no dependa de una persona.
 2. Anotar el **Cloud name** que aparece en el panel principal (Dashboard).
+   La cuenta actual es `lywalzfq`. No es un secreto: aparece en todas las URLs
+   de las imágenes.
 3. Crear la carpeta raíz `pastoral-vocacional` en *Media Library* con
    subcarpetas por sección: `portada`, `conocenos`, `galeria`, `equipo`.
+
+   La cuenta usa **carpetas dinámicas**: la carpeta donde se guarda una foto
+   solo organiza la Media Library y puede no formar parte de su ID público ni
+   de su URL. Por eso en `src/data/landing.ts` se pega siempre la **URL
+   completa** copiada desde Cloudinary, que funciona sin depender de la
+   carpeta. Mover una foto de carpeta no rompe su URL; renombrarla o borrarla,
+   sí.
 4. Invitar como usuarios a quienes subirán fotos (*Settings → Users*), con rol
    de solo medios cuando sea posible.
 5. Configurar alertas de consumo en *Settings → Account* para recibir aviso

@@ -26,8 +26,11 @@ puede hacerlo la persona encargada de la web.
    **copiar URL** (Copy URL). Obtendrás algo como:
 
    ```text
-   https://res.cloudinary.com/pastoral/image/upload/v1730000000/pastoral-vocacional/galeria/retiro-junio-2026.jpg
+   https://res.cloudinary.com/lywalzfq/image/upload/v1730000000/retiro-junio-2026.jpg
    ```
+
+   Es normal que la URL no incluya el nombre de la carpeta: la cuenta usa
+   carpetas dinámicas, que solo sirven para ordenar la biblioteca.
 
 6. Envía esa URL a la persona encargada de la web, indicando **en qué sección**
    debe aparecer y una **descripción breve** de la foto (por ejemplo, «Jóvenes
@@ -35,7 +38,7 @@ puede hacerlo la persona encargada de la web.
    discapacidad visual y los buscadores.
 
 > No borres ni renombres en Cloudinary una foto que ya está publicada: la web
-> dejaría de mostrarla. Si quieres reemplazarla, sube la nueva y pide que se
+> dejaría de mostrarla. Moverla a otra carpeta sí es seguro. Si quieres reemplazarla, sube la nueva y pide que se
 > cambie la URL.
 
 ## 3. Publicar la foto en la web (persona encargada de la web)
@@ -55,7 +58,7 @@ Ejemplo para la galería:
 
 ```ts
 fotos: [
-  "https://res.cloudinary.com/pastoral/image/upload/v1730000000/pastoral-vocacional/galeria/retiro-junio-2026.jpg",
+  "https://res.cloudinary.com/lywalzfq/image/upload/v1730000000/retiro-junio-2026.jpg",
   "", // vacío = se muestra un marcador con el logo
   "", "", "", "",
 ],
