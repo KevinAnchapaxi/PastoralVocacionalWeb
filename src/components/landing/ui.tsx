@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import type { Tone } from "@/data/landing";
+import { ContentImage } from "./ContentImage";
 import styles from "./landing.module.css";
 
 /* ---------- Botón ---------- */
@@ -78,7 +79,7 @@ export function Photo({
   if (src) {
     return (
       <div className={`${styles.photo} ${className ?? ""}`}>
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} style={{ objectFit: "cover" }} />
+        <ContentImage src={src} alt={alt} fill sizes={sizes} priority={priority} style={{ objectFit: "cover" }} />
       </div>
     );
   }

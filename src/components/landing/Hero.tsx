@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { hero, site } from "@/data/landing";
+import { ContentImage } from "./ContentImage";
 import { Button, Wave } from "./ui";
 import styles from "./landing.module.css";
 
@@ -8,7 +9,7 @@ export function Hero() {
     <section className={styles.hero}>
       <div className={styles.hero_bg} aria-hidden="true">
         {hero.foto ? (
-          <Image src={hero.foto} alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
+          <ContentImage src={hero.foto} alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
         ) : (
           <div className={styles.hero_bg_mark}>
             <Image src="/brand/logotipo-negativo-blanco.png" alt="" width={833} height={898} priority />

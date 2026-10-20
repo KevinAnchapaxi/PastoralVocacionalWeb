@@ -1,6 +1,9 @@
 /**
  * Todo el contenido de la landing en un solo lugar.
  * Los valores entre corchetes son marcadores: sustitúyelos por los datos reales.
+ *
+ * Fotos: acepta una URL de Cloudinary (recomendado), un ID público de Cloudinary
+ * o una ruta en /public. Vacío = marcador. Ver docs/guia-de-usuario.md.
  */
 import type { IconName } from "@/components/landing/Icon";
 
@@ -42,7 +45,7 @@ export const hero = {
   texto:
     "Un espacio de escucha, oración y comunidad para niños, adolescentes y jóvenes de Quito que quieren dar una respuesta libre y generosa al amor de Dios.",
   fotoAlt: "[FOTO DE PORTADA: jóvenes en un encuentro vocacional]",
-  /** Ruta de la foto real en /public, p. ej. "/fotos/portada.jpg". Vacío = marcador. */
+  /** URL de Cloudinary, ID público o ruta en /public. Vacío = marcador. */
   foto: "",
 };
 
@@ -170,7 +173,7 @@ export const galeria = {
   kicker: "Síguenos",
   titulo: "Un día con la Pastoral Vocacional",
   lead: "Momentos de encuentros, retiros y oración compartidos en nuestras redes.",
-  /** Rutas de fotos en /public; vacías = marcadores. */
+  /** URLs de Cloudinary, IDs públicos o rutas en /public; vacías = marcadores. */
   fotos: ["", "", "", "", "", ""],
 };
 
