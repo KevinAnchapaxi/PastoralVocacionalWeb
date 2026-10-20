@@ -50,7 +50,7 @@ el campo que corresponda:
 |---|---|---|
 | Portada | `hero.foto` | 1 |
 | Conócenos | `conocenos.fotos[n].src` (y su `alt`) | 2 |
-| Galería «Síguenos» | `galeria.fotos` | 6 |
+| Galería «Síguenos» | `galeria.fotos[n].src` (y su `alt`) | 6 |
 | Nuestro equipo | `equipo.miembros[n].foto` | 1 por persona |
 | Palabras del delegado | `equipo.delegado.foto` | 1 |
 
@@ -58,9 +58,12 @@ Ejemplo para la galería:
 
 ```ts
 fotos: [
-  "https://res.cloudinary.com/lywalzfq/image/upload/v1730000000/retiro-junio-2026.jpg",
-  "", // vacío = se muestra un marcador con el logo
-  "", "", "", "",
+  {
+    src: "https://res.cloudinary.com/lywalzfq/image/upload/v1730000000/retiro-junio-2026.jpg",
+    alt: "Jóvenes rezando en el retiro de junio",
+  },
+  { src: "", alt: "[FOTO 2]" }, // vacío = se muestra un marcador con el logo
+  // ...
 ],
 ```
 

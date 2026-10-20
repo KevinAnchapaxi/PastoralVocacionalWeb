@@ -16,8 +16,8 @@ export function Galeria() {
           </Button>
         </div>
         <div className={styles.galeria}>
-          {galeria.fotos.map((src, i) => (
-            <Photo key={i} src={src} alt={`[FOTO ${i + 1}]`} tone={TONES[i % TONES.length]} sizes="(min-width: 1024px) 16vw, 50vw" />
+          {galeria.fotos.map((foto, i) => (
+            <Photo key={i} src={foto.src} alt={foto.alt} tone={TONES[i % TONES.length]} sizes="(min-width: 1024px) 16vw, 50vw" />
           ))}
         </div>
       </div>

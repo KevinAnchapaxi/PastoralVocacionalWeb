@@ -173,8 +173,18 @@ export const galeria = {
   kicker: "Síguenos",
   titulo: "Un día con la Pastoral Vocacional",
   lead: "Momentos de encuentros, retiros y oración compartidos en nuestras redes.",
-  /** URLs de Cloudinary, IDs públicos o rutas en /public; vacías = marcadores. */
-  fotos: ["", "", "", "", "", ""],
+  /** `src`: URL de Cloudinary, ID público o ruta en /public; vacío = marcador. */
+  fotos: [
+    {
+      src: "https://res.cloudinary.com/lywalzfq/image/upload/v1792519623/854914166_18035818016851241_2399056982468440735_n.jpg",
+      alt: "Jóvenes de la Pastoral Vocacional en un encuentro vocacional de la Arquidiócesis de Quito",
+    },
+    { src: "", alt: "[FOTO 2]" },
+    { src: "", alt: "[FOTO 3]" },
+    { src: "", alt: "[FOTO 4]" },
+    { src: "", alt: "[FOTO 5]" },
+    { src: "", alt: "[FOTO 6]" },
+  ],
 };
 
 export const equipo = {
