@@ -20,7 +20,7 @@ puede hacerlo la persona encargada de la web.
 1. Entra a <https://cloudinary.com> con la cuenta de la pastoral.
 2. Abre **Media Library** (Biblioteca de medios).
 3. Entra a la carpeta `pastoral-vocacional` y a la subcarpeta de la sección:
-   `portada`, `conocenos`, `galeria` o `equipo`.
+   `portada`, `testimonios` o `equipo`.
 4. Pulsa **Upload** (Subir) y elige las fotos.
 5. Cuando terminen de subir, pasa el cursor sobre la foto y pulsa el ícono de
    **copiar URL** (Copy URL). Obtendrás algo como:
@@ -43,29 +43,24 @@ puede hacerlo la persona encargada de la web.
 
 ## 3. Publicar la foto en la web (persona encargada de la web)
 
-Todo el contenido está en `src/data/landing.ts`. Pega la URL entre comillas en
-el campo que corresponda:
+El contenido está en la carpeta `src/data/`. Pega la URL entre comillas en el
+campo que corresponda:
 
-| Sección | Campo | Cantidad |
-|---|---|---|
-| Portada | `hero.foto` | 1 |
-| Conócenos | `conocenos.fotos[n].src` (y su `alt`) | 2 |
-| Galería «Síguenos» | `galeria.fotos[n].src` (y su `alt`) | 6 |
-| Nuestro equipo | `equipo.miembros[n].foto` | 1 por persona |
-| Palabras del delegado | `equipo.delegado.foto` | 1 |
+| Sección | Archivo | Campo | Cantidad |
+|---|---|---|---|
+| Portada (imagen de fondo) | `landing.ts` | `hero.foto` | 1 |
+| Testimonios | `testimonios.ts` | `lista[n].foto` (opcional) | 1 por testimonio |
+| Nuestro equipo | `landing.ts` | `equipo.miembros[n].foto` | 1 por persona |
+| Palabras del delegado | `landing.ts` | `equipo.delegado.foto` | 1 |
 
-Ejemplo para la galería:
+Ejemplo para la portada:
 
 ```ts
-fotos: [
-  {
-    src: "https://res.cloudinary.com/lywalzfq/image/upload/v1730000000/retiro-junio-2026.jpg",
-    alt: "Jóvenes rezando en el retiro de junio",
-  },
-  { src: "", alt: "[FOTO 2]" }, // vacío = se muestra un marcador con el logo
-  // ...
-],
+foto: "https://res.cloudinary.com/lywalzfq/image/upload/v1730000000/retiro-junio-2026.jpg",
 ```
+
+Para la portada elige una foto horizontal y tranquila: encima va el título en
+blanco con una capa azul semitransparente.
 
 Luego:
 
@@ -75,6 +70,70 @@ npm test        # comprobar que todo sigue funcionando
 ```
 
 Sube el cambio a la rama `DEV_KA` y abre un pull request hacia `main`.
+
+## 4. Videos
+
+Hay dos videos pendientes. Mientras no se completen, se ve un recuadro azul con
+un botón de reproducción y la etiqueta `[VIDEO: …]`.
+
+| Video | Archivo | Campo |
+|---|---|---|
+| ¿Qué es la Pastoral Vocacional? | `landing.ts` | `queEs.video.src` |
+| Testimonio en video | `testimonios.ts` | `testimonios.video.src` |
+
+Hay dos formas de publicarlos:
+
+- **YouTube (recomendado para videos con voz):** sube el video al canal de la
+  pastoral y pega su enlace, p. ej. `"https://www.youtube.com/watch?v=XXXXXXXXXXX"`.
+  YouTube ofrece subtítulos y no consume el cupo de Cloudinary ni del hosting.
+- **Archivo propio:** copia el `.mp4` en `public/video/` y escribe su ruta, p. ej.
+  `"/video/que-es.mp4"`. En `poster` puedes poner la imagen que se ve antes de
+  reproducir. Formato horizontal 16:9, idealmente de menos de 10 MB.
+
+## 5. Testimonios escritos
+
+Están en `src/data/testimonios.ts`. Los tres que hay son **ejemplos
+inventados** y se ven con la etiqueta «Testimonio de ejemplo». Por cada
+testimonio real:
+
+```ts
+{
+  nombre: "Andrés Pérez",
+  rol: "Seminarista · Parroquia San José",
+  texto: "Dos o tres frases, en primera persona.",
+  foto: "", // opcional: URL de Cloudinary
+  provisional: false,
+},
+```
+
+Pide siempre permiso por escrito a la persona (y a sus padres si es menor de
+edad) para publicar su nombre, su foto y su testimonio.
+
+## 6. Publicaciones de Instagram
+
+En `src/data/instagram.ts`:
+
+1. Escribe el nombre de la cuenta **sin @** en `usuario`, p. ej.
+   `usuario: "pastoralvocacionaluio"`. Con eso funciona el botón «Seguir».
+2. En Instagram, abre cada publicación o reel que quieras mostrar, pulsa
+   **… → Copiar enlace** y pégalo en `publicaciones`:
+
+   ```ts
+   publicaciones: [
+     "https://www.instagram.com/reel/ABC123xyz/",
+     "https://www.instagram.com/p/DEF456uvw/",
+     "https://www.instagram.com/reel/GHI789rst/",
+   ],
+   ```
+
+   Se recomiendan 3 o 6 para que la cuadrícula quede completa. La cuenta debe
+   ser **pública**. Si borras una publicación en Instagram, quítala también de
+   esta lista.
+
+## 7. Otras áreas pastorales
+
+La lista está en `src/data/areas-pastorales.ts`, tomada de la página de la
+Arquidiócesis. Si cambia un enlace o se crea un área nueva, actualízala ahí.
 
 ## Preguntas frecuentes
 

@@ -35,11 +35,14 @@ npm run build      # compilación optimizada de producción
 npm run start      # ejecución de la compilación de producción
 ```
 
-## Contenido y fotos
+## Contenido, fotos y videos
 
-- Todo el texto, los enlaces y las fotos están en `src/data/landing.ts`.
-- Las fotos se suben a Cloudinary y se pegan como URL en ese archivo. Un campo
-  vacío muestra un marcador con el logo.
+- Todo el texto, los enlaces, las fotos y los videos están en `src/data/`:
+  `landing.ts` (general), `testimonios.ts`, `instagram.ts` y
+  `areas-pastorales.ts`.
+- Las fotos se suben a Cloudinary y se pegan como URL. Los videos se enlazan
+  desde YouTube o se guardan en `public/video/`. Un campo vacío muestra un
+  marcador.
 - Paso a paso para el equipo de la pastoral:
   [docs/guia-de-usuario.md](docs/guia-de-usuario.md).
 

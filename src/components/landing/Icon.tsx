@@ -38,6 +38,17 @@ const PATHS = {
   pray: <path d="M12 3v7M9 10h6M8 21l4-9 4 9M6 21h12" />,
   church: <path d="M12 2v5M9.5 4.5h5M4 21V12l8-5 8 5v9zM10 21v-5h4v5" />,
   star5: <path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z" />,
+  book: <path d="M4 19V5a2 2 0 0 1 2-2h14v14H6a2 2 0 0 0-2 2 2 2 0 0 0 2 2h14M8 7h8" />,
+  speaker: <path d="M4 10v4h3l5 4V6L7 10zM16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12" />,
+  instagram: (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="M17.5 6.5h.01" />
+    </>
+  ),
+  external: <path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />,
+  play: <path d="M8 5v14l11-7z" />,
 };
 
 export type IconName = keyof typeof PATHS;

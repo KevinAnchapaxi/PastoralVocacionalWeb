@@ -11,6 +11,8 @@
 | Hosting del sitio | **Pendiente** | La planificación inicial menciona Azure Static Web Apps como opción |
 | Dominio y DNS | **Pendiente** | — |
 | CI/CD | **Pendiente** | Hoy lint, pruebas y build se ejecutan a mano |
+| Instagram | Preparado | Embeds oficiales; falta la cuenta y las publicaciones (`src/data/instagram.ts`) |
+| Videos | Pendiente | YouTube o archivos en `public/video/` (ver guía de usuario) |
 | Base de datos, correo, analítica | No aplica | Fuera de alcance en esta fase |
 
 ## Repositorio y ramas
@@ -51,7 +53,7 @@ momento de la primera solicitud y la guarda en caché.
    La cuenta actual es `lywalzfq`. No es un secreto: aparece en todas las URLs
    de las imágenes.
 3. Crear la carpeta raíz `pastoral-vocacional` en *Media Library* con
-   subcarpetas por sección: `portada`, `conocenos`, `galeria`, `equipo`.
+   subcarpetas por sección: `portada`, `testimonios`, `equipo`.
 
    La cuenta usa **carpetas dinámicas**: la carpeta donde se guarda una foto
    solo organiza la Media Library y puede no formar parte de su ID público ni
@@ -96,6 +98,26 @@ Cloudflare R2 (sin costo de salida); el cambio se limita a
 
 Al ser `NEXT_PUBLIC_*`, se incrusta en la compilación: si cambia, hay que volver
 a compilar y publicar.
+
+## Servicios de terceros en la página
+
+| Servicio | Cuándo se carga | Qué implica |
+|---|---|---|
+| Instagram (`www.instagram.com/embed.js`) | Solo si hay publicaciones configuradas y el visitante llega cerca de la sección | Meta puede colocar cookies y registrar la visita |
+| YouTube (`youtube-nocookie.com`) | Solo si un video usa un enlace de YouTube | Modo de privacidad mejorada: sin cookies hasta que se reproduce |
+
+Antes de publicar con Instagram o YouTube activos, revisar con la Arquidiócesis
+si hace falta un aviso de privacidad o de cookies conforme a la Ley Orgánica de
+Protección de Datos Personales del Ecuador.
+
+## Videos
+
+- Para videos con voz (testimonios), preferir **YouTube**: aporta subtítulos y no
+  consume tráfico propio.
+- Si se usan archivos propios en `public/video/`: MP4 H.264, 16:9, menos de
+  10 MB. Cada reproducción cuenta como tráfico del hosting.
+- No subir videos a Cloudinary con el plan gratuito: un video consume el cupo
+  mensual mucho más rápido que las fotos (ver «Cupo del plan gratuito»).
 
 ## Requisitos para el hosting (cuando se defina)
 

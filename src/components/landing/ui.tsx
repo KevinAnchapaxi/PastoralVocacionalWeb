@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import type { Tone } from "@/data/landing";
 import { ContentImage } from "./ContentImage";
+import { Icon } from "./Icon";
 import styles from "./landing.module.css";
 
 /* ---------- Botón ---------- */
@@ -9,17 +10,21 @@ export function Button({
   href,
   variant = "primary",
   size = "md",
+  external = false,
   children,
 }: {
   href: string;
   variant?: "primary" | "accent" | "outline" | "white";
   size?: "md" | "lg";
+  /** Abre en una pestaña nueva. */
+  external?: boolean;
   children: ReactNode;
 }) {
   return (
     <a
       href={href}
       className={`${styles.btn} ${styles[`btn_${variant}`]} ${size === "lg" ? styles.btn_lg : ""}`}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
       {children}
     </a>
@@ -92,6 +97,59 @@ export function Photo({
     >
       <Image src="/brand/isotipo.png" alt="" width={160} height={161} className={styles.photo_mark} />
       <span className={styles.photo_label}>{alt}</span>
+    </div>
+  );
+}
+
+/* ---------- Video o marcador ---------- */
+const YOUTUBE_ID = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/;
+
+/**
+ * Video 16:9. Mientras `src` esté vacío muestra un marcador.
+ *
+ * VIDEO PENDIENTE → para publicarlo, completa `src` en el archivo de datos:
+ *   - Archivo propio en public/video/:  src: "/video/que-es.mp4", poster: "/video/que-es.jpg"
+ *   - YouTube:                          src: "https://www.youtube.com/watch?v=XXXXXXXXXXX"
+ * No hace falta tocar este componente ni la sección.
+ */
+export function Video({
+  src,
+  poster,
+  title,
+  className,
+}: {
+  src?: string;
+  poster?: string;
+  title: string;
+  className?: string;
+}) {
+  const youtubeId = src?.match(YOUTUBE_ID)?.[1];
+  if (youtubeId) {
+    return (
+      <div className={`${styles.video} ${className ?? ""}`}>
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
+          title={title}
+          loading="lazy"
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+    );
+  }
+  if (src) {
+    return (
+      <div className={`${styles.video} ${className ?? ""}`}>
+        <video src={src} poster={poster || undefined} controls playsInline preload="none" aria-label={title} />
+      </div>
+    );
+  }
+  return (
+    <div className={`${styles.video} ${styles.video_placeholder} ${className ?? ""}`} role="img" aria-label={`Video pendiente: ${title}`}>
+      <span className={styles.video_play}>
+        <Icon name="play" size={32} filled />
+      </span>
+      <span className={styles.photo_label}>[VIDEO: {title}]</span>
     </div>
   );
 }

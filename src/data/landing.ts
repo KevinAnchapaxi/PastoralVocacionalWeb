@@ -1,11 +1,14 @@
 /**
- * Todo el contenido de la landing en un solo lugar.
+ * Contenido general de la landing. Testimonios, Instagram y áreas pastorales
+ * tienen su propio archivo en esta carpeta.
  * Los valores entre corchetes son marcadores: sustitúyelos por los datos reales.
  *
  * Fotos: acepta una URL de Cloudinary (recomendado), un ID público de Cloudinary
  * o una ruta en /public. Vacío = marcador. Ver docs/guia-de-usuario.md.
+ * Videos: ver el componente `Video` en src/components/landing/ui.tsx.
  */
 import type { IconName } from "@/components/landing/Icon";
+import { perfilInstagram } from "./instagram";
 
 export type Tone = "mar" | "vocacional" | "rojo" | "cafe";
 
@@ -15,7 +18,6 @@ export const site = {
   lema: "“Dejándolo todo, lo siguieron”",
   cita: "Lucas 5, 11",
   anioFundacion: "[AÑO]",
-  instagram: "[@USUARIO]",
   telefono: "[TELÉFONO / WHATSAPP]",
   whatsappUrl: "#contacto",
   correo: "[CORREO DE LA PASTORAL]",
@@ -25,7 +27,7 @@ export const site = {
   oracion: "Oración por las vocaciones: jueves, [HORA]",
   redes: [
     { nombre: "Facebook", url: "#" },
-    { nombre: "Instagram", url: "#" },
+    { nombre: "Instagram", url: perfilInstagram.url },
     { nombre: "TikTok", url: "#" },
     { nombre: "YouTube", url: "#" },
   ],
@@ -33,158 +35,81 @@ export const site = {
 
 export const nav = [
   { id: "inicio", label: "Inicio" },
-  { id: "conocenos", label: "Conócenos" },
-  { id: "programa", label: "Programa" },
-  { id: "equipo", label: "Nuestro equipo" },
+  { id: "que-es", label: "¿Qué es?" },
+  { id: "para-que", label: "Misión" },
+  { id: "testimonios", label: "Testimonios" },
+  { id: "equipo", label: "Equipo" },
   { id: "contacto", label: "Contáctanos" },
 ];
 
 export const hero = {
-  insignia: "Arquidiócesis de Quito",
-  titulo: "La pastoral que te acompaña a descubrir a qué te llama Dios",
-  texto:
-    "Un espacio de escucha, oración y comunidad para niños, adolescentes y jóvenes de Quito que quieren dar una respuesta libre y generosa al amor de Dios.",
-  fotoAlt: "[FOTO DE PORTADA: jóvenes en un encuentro vocacional]",
-  /** URL de Cloudinary, ID público o ruta en /public. Vacío = marcador. */
+  titulo: "Pastoral Vocacional",
+  /*
+   * Opciones de slogan (una línea):
+   * 1. «Escucha su llamado, descubre tu camino.»  ← en uso: invita a la acción
+   *    personal y resume el discernimiento en dos verbos.
+   * 2. «Dios te llama; te acompañamos a responder.»
+   * 3. «Tu vocación empieza con un sí.»
+   */
+  slogan: "Escucha su llamado, descubre tu camino.",
+  /** Imagen de fondo: URL de Cloudinary, ID público o ruta en /public. Vacío = logo de marca. */
   foto: "",
 };
 
-export const conocenos = {
+export const queEs = {
   kicker: "Conócenos",
-  titulo: "Una respuesta libre, generosa y concreta al amor de Dios",
-  lead: "La Pastoral Vocacional Arquidiocesana es el ámbito de la Iglesia que acompaña a los fieles en el descubrimiento de la llamada de Dios en sus vidas.",
+  titulo: "¿Qué es la Pastoral Vocacional?",
+  lead: "Es el espacio de la Iglesia de Quito que te acompaña a descubrir lo que Dios sueña para tu vida.",
   texto:
-    "La vocación no es solo el sacerdocio: es el llamado a la vida, a la santidad, al servicio, al matrimonio, al compromiso bautismal y a la construcción del Reino de Dios. Acompañamos especialmente a niños, adolescentes y jóvenes en el discernimiento de la voluntad de Dios para sus vidas.",
-  cifras: [
-    { valor: "9", etiqueta: "dimensiones pastorales" },
-    { valor: "[N]", etiqueta: "parroquias acompañadas" },
-    { valor: "[N]", etiqueta: "jóvenes en discernimiento" },
-  ],
-  fotos: [
-    { alt: "[FOTO: retiro vocacional]", src: "" },
-    { alt: "[FOTO: grupo en parroquia]", src: "" },
-  ],
-  valores: [
+    "La vocación no es solo el sacerdocio o la vida consagrada: también es el matrimonio, el servicio y el compromiso de todo bautizado. Caminamos sobre todo con niños, adolescentes y jóvenes, junto a las parroquias, los colegios y las demás pastorales de la Arquidiócesis.",
+  boton: "Hablar con un acompañante",
+  /** Video de la sección. Vacío = marcador. Formatos admitidos: ver `Video` en ui.tsx. */
+  video: { src: "", poster: "", titulo: "¿Qué es la Pastoral Vocacional?" },
+};
+
+export const paraQue = {
+  kicker: "Nuestra misión",
+  titulo: "¿Para qué existe la Pastoral Vocacional?",
+  lead: "Para que nadie descubra su vocación en soledad.",
+  puntos: [
+    {
+      icon: "cross",
+      tone: "mar",
+      titulo: "Encontrarte con Jesús",
+      texto: "Él es quien llama. Todo empieza por conocerlo y dejarte querer por Él.",
+    },
+    {
+      icon: "star",
+      tone: "vocacional",
+      titulo: "Descubrir tu vocación",
+      texto: "Te ayudamos a escuchar lo que Dios quiere para ti, con libertad y sin presión.",
+    },
     {
       icon: "hand",
+      tone: "rojo",
+      titulo: "Acompañarte de cerca",
+      texto: "Una persona de confianza camina contigo y te escucha mientras decides.",
+    },
+    {
+      icon: "book",
+      tone: "cafe",
+      titulo: "Ayudarte a crecer",
+      texto: "Formación humana, espiritual y bíblica para dar tu respuesta con madurez.",
+    },
+    {
+      icon: "pray",
       tone: "mar",
-      titulo: "Acompañamiento cercano",
-      texto:
-        "Un acompañante vocacional camina contigo, sin prisa y sin presión, hasta que descubras tu camino.",
+      titulo: "Rezar por las vocaciones",
+      texto: "Animamos la oración en parroquias, familias y grupos de toda la ciudad.",
     },
     {
       icon: "people",
       tone: "vocacional",
-      titulo: "Comunidad viva",
-      texto:
-        "Encuentros, retiros y grupos donde el llamado se vive junto a otros jóvenes.",
-    },
-    {
-      icon: "pray",
-      tone: "rojo",
-      titulo: "Oración y formación",
-      texto:
-        "Espacios de silencio, Palabra y formación para escuchar mejor la voz de Dios.",
-    },
-    {
-      icon: "church",
-      tone: "cafe",
-      titulo: "Presente en tu parroquia",
-      texto:
-        "Equipos vocacionales en parroquias, colegios y movimientos de toda la Arquidiócesis.",
+      titulo: "Para niños, adolescentes y jóvenes",
+      texto: "Y también para sus familias, catequistas y parroquias que los acompañan.",
     },
   ] satisfies { icon: IconName; tone: Tone; titulo: string; texto: string }[],
-};
-
-export const programa = {
-  kicker: "Nuestro programa",
-  titulo: "Así te acompañamos durante el año",
-  lead: "Cuatro espacios que se repiten en el calendario arquidiocesano. Todos son gratuitos y abiertos.",
-  bloques: [
-    {
-      titulo: "Encuentros vocacionales",
-      frecuencia: "Mensual",
-      texto:
-        "Jornadas de un día con oración, dinámicas y testimonios para jóvenes que se preguntan por su vocación.",
-      fotos: ["Oración inicial", "Dinámica de grupo", "Testimonio", "Adoración"],
-    },
-    {
-      titulo: "Retiros de discernimiento",
-      frecuencia: "Trimestral",
-      texto:
-        "Fines de semana de silencio y acompañamiento personal para quienes ya sienten un llamado concreto.",
-      fotos: ["Silencio", "Acompañamiento", "Misa", "Compartir"],
-    },
-    {
-      titulo: "Formación de animadores",
-      frecuencia: "Semestral",
-      texto:
-        "Escuela para agentes vocacionales de parroquias, colegios y movimientos.",
-      fotos: ["Clase", "Taller", "Trabajo en equipo", "Envío"],
-    },
-    {
-      titulo: "Oración por las vocaciones",
-      frecuencia: "Cada jueves",
-      texto:
-        "Vigilias y horas santas abiertas a toda la comunidad arquidiocesana.",
-      fotos: ["Vigilia", "Rosario", "Hora santa", "Comunidad"],
-    },
-  ],
-};
-
-/** Los cinco elementos del logo (Manual de Marca, p. 4). */
-export const metodo = {
-  kicker: "Nuestro camino",
-  titulo: "Cinco claves del discernimiento",
-  lead: "Las mismas que dibuja nuestro logo: la cruz, las personas, la red, la barca y la estrella.",
-  claves: [
-    { icon: "cross", tone: "mar", titulo: "Cruz", texto: "Cristo que llama y da sentido a toda vocación." },
-    { icon: "people", tone: "vocacional", titulo: "Personas", texto: "El llamado personal vivido en comunidad." },
-    { icon: "net", tone: "cafe", titulo: "Red y peces", texto: "Iglesia que sale al encuentro y da frutos." },
-    { icon: "boat", tone: "mar", titulo: "Barca", texto: "Comunidad que acoge, forma y acompaña." },
-    { icon: "star", tone: "rojo", titulo: "Estrella", texto: "María, guía en el camino vocacional." },
-  ] satisfies { icon: IconName; tone: Tone; titulo: string; texto: string }[],
-};
-
-export const testimonios = {
-  kicker: "Testimonios",
-  titulo: "Historias de quienes escucharon el llamado",
-  resenas: { texto: "[N] familias nos recomiendan", fuente: "Reseñas de Google", url: "#" },
-  lista: [
-    {
-      cita: "[TESTIMONIO 1: cómo el acompañamiento le ayudó a decidir su camino.]",
-      nombre: "[NOMBRE]",
-      rol: "Seminarista · [PARROQUIA]",
-    },
-    {
-      cita: "[TESTIMONIO 2: una familia que acompañó a su hijo o hija en el discernimiento.]",
-      nombre: "[NOMBRE]",
-      rol: "Mamá de un joven del grupo",
-    },
-    {
-      cita: "[TESTIMONIO 3: una joven que descubrió su vocación al matrimonio o a la vida consagrada.]",
-      nombre: "[NOMBRE]",
-      rol: "Religiosa · [CONGREGACIÓN]",
-    },
-  ],
-};
-
-export const galeria = {
-  kicker: "Síguenos",
-  titulo: "Un día con la Pastoral Vocacional",
-  lead: "Momentos de encuentros, retiros y oración compartidos en nuestras redes.",
-  /** `src`: URL de Cloudinary, ID público o ruta en /public; vacío = marcador. */
-  fotos: [
-    {
-      src: "https://res.cloudinary.com/lywalzfq/image/upload/v1792519623/854914166_18035818016851241_2399056982468440735_n.jpg",
-      alt: "Jóvenes de la Pastoral Vocacional en un encuentro vocacional de la Arquidiócesis de Quito",
-    },
-    { src: "", alt: "[FOTO 2]" },
-    { src: "", alt: "[FOTO 3]" },
-    { src: "", alt: "[FOTO 4]" },
-    { src: "", alt: "[FOTO 5]" },
-    { src: "", alt: "[FOTO 6]" },
-  ],
+  boton: "Quiero que me acompañen",
 };
 
 export const equipo = {
@@ -223,10 +148,10 @@ export const footer = {
     {
       titulo: "Pastoral",
       enlaces: [
-        { label: "Conócenos", href: "#conocenos" },
-        { label: "Programa", href: "#programa" },
-        { label: "Nuestro equipo", href: "#equipo" },
+        { label: "¿Qué es?", href: "#que-es" },
+        { label: "Nuestra misión", href: "#para-que" },
         { label: "Testimonios", href: "#testimonios" },
+        { label: "Otras pastorales", href: "#areas" },
       ],
     },
   ],
