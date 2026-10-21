@@ -60,8 +60,8 @@ Cloudinary no se necesitan y no deben versionarse.
 - `main`: versión estable. `DEV_KA`: rama de desarrollo.
 - Los cambios se hacen en `DEV_KA` y llegan a `main` mediante pull request, con
   `npm run lint`, `npm test` y `npm run build` en verde.
-- Publicación en Cloudflare Pages: `main` es producción y `DEV_KA` genera una
-  vista previa. Configuración en [docs/infraestructura.md](docs/infraestructura.md#hosting-cloudflare-pages).
+- Publicación en Cloudflare (Workers, sitio estático): `main` es producción y `DEV_KA` genera una
+  vista previa. Configuración en [docs/infraestructura.md](docs/infraestructura.md#hosting-cloudflare-workers-sitio-estático).
 
 ## Base técnica
 

@@ -1,4 +1,4 @@
-# Cabeceras HTTP para Cloudflare Pages (https://developers.cloudflare.com/pages/configuration/headers/).
+# Cabeceras HTTP que aplica Cloudflare a los archivos estáticos (formato _headers de Cloudflare).
 
 /*
   X-Content-Type-Options: nosniff

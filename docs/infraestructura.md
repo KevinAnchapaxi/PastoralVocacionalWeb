@@ -8,8 +8,8 @@
 |---|---|---|
 | Repositorio | Activo | GitHub: `KevinAnchapaxi/CloudinaryPastoralVocacionalWeb` |
 | Imágenes | Activo | Cloudinary, plan gratuito, cloud name `lywalzfq`, carpetas dinámicas |
-| Hosting del sitio | **Preparado** | Cloudflare Pages, plan gratuito; falta crear el proyecto (ver «Hosting») |
-| Dominio y DNS | **Pendiente** | Mientras tanto, subdominio gratuito `*.pages.dev` |
+| Hosting del sitio | **En configuración** | Cloudflare Workers con recursos estáticos, plan gratuito (ver «Hosting») |
+| Dominio y DNS | **Pendiente** | Mientras tanto, subdominio gratuito `*.workers.dev` |
 | CI/CD | **Parcial** | Cloudflare compila y publica en cada push; lint y pruebas se ejecutan a mano |
 | Instagram | Preparado | Embeds oficiales; falta la cuenta y las publicaciones (`src/data/instagram.ts`) |
 | Videos | Pendiente | YouTube o archivos en `public/video/` (ver guía de usuario) |
@@ -119,10 +119,13 @@ Protección de Datos Personales del Ecuador.
 - No subir videos a Cloudinary con el plan gratuito: un video consume el cupo
   mensual mucho más rápido que las fotos (ver «Cupo del plan gratuito»).
 
-## Hosting: Cloudflare Pages
+## Hosting: Cloudflare Workers (sitio estático)
 
 Decisión documentada en
-[decisiones/0002-hosting-cloudflare-pages.md](decisiones/0002-hosting-cloudflare-pages.md).
+[decisiones/0002-hosting-cloudflare.md](decisiones/0002-hosting-cloudflare.md).
+Se usa Workers con recursos estáticos (*static assets*), que es el flujo que
+Cloudflare ofrece para proyectos nuevos. Las solicitudes a archivos estáticos son
+gratuitas y no consumen el cupo de solicitudes del plan gratuito.
 
 ### Cómo está preparado el proyecto
 
@@ -136,50 +139,66 @@ Decisión documentada en
     las fotos van en Cloudinary.
 - `public/_headers` define cabeceras de seguridad y la caché de un año para
   `/_next/static/*` (archivos con hash en el nombre).
+- `wrangler.jsonc` indica a Wrangler que publique la carpeta `out/` y que las
+  rutas inexistentes muestren `404.html`. Su campo `name` debe coincidir con el
+  nombre del Worker en el panel (hoy `pastoralvocacionalweb`).
 - La versión de Node se toma de `.nvmrc`.
 
 ### Crear el proyecto (una sola vez)
 
-1. **Llevar el código a `main`.** Hoy `main` solo tiene el commit inicial y su
-   compilación fallaría. Abrir en GitHub un pull request `DEV_KA → main` y
-   fusionarlo.
+1. **Llevar el código a `main`.** Si `main` no tiene el código, Cloudflare clona
+   una rama sin `package.json`, no compila nada y Wrangler falla con «Could not
+   detect a directory containing static files». Abrir en GitHub un pull request
+   `DEV_KA → main` y fusionarlo.
 2. Crear una cuenta gratuita en <https://dash.cloudflare.com>, idealmente con el
    correo institucional de la pastoral.
-3. Ir a **Workers & Pages → Create → Pages → Connect to Git** y autorizar
-   GitHub. Elegir el repositorio `KevinAnchapaxi/PastoralVocacionalWeb`.
-4. Configurar la compilación:
+3. **Workers & Pages → Create → Import a repository**, autorizar GitHub y
+   elegir `KevinAnchapaxi/PastoralVocacionalWeb`.
+4. Configuración de compilación (al crear, o después en
+   **Settings → Build → Build configuration**):
 
    | Campo | Valor |
    |---|---|
-   | Production branch | `main` |
-   | Framework preset | `Next.js (Static HTML Export)` |
    | Build command | `npm run build` |
-   | Build output directory | `out` |
+   | Deploy command | `npx wrangler deploy` |
+   | Non-production branch deploy command | `npx wrangler versions upload` |
+   | Root directory | `/` (vacío) |
 
-5. En **Environment variables** (producción y vista previa):
+5. **Settings → Build → Branch control**: rama de producción `main` y activar
+   las compilaciones de otras ramas (vistas previas de `DEV_KA`).
+6. **Settings → Build → Variables and secrets** (variables de compilación):
 
    | Variable | Valor |
    |---|---|
    | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | `lywalzfq` |
    | `NODE_VERSION` | `24.21.0` (solo si la compilación no toma `.nvmrc`) |
 
-6. **Save and Deploy.** La web queda en `https://<proyecto>.pages.dev`.
+7. Lanzar la compilación (**Deployments → Retry/Deploy**, o con un push). La web
+   queda en `https://pastoralvocacionalweb.<subdominio>.workers.dev`.
 
 ### Ramas y vistas previas
 
 | Rama | Resultado |
 |---|---|
-| `main` | Producción: `https://<proyecto>.pages.dev` |
-| `DEV_KA` y demás ramas | Vista previa con su propio enlace, p. ej. `https://dev-ka.<proyecto>.pages.dev` |
+| `main` | Producción (`npx wrangler deploy`) |
+| `DEV_KA` y demás ramas | Versión de vista previa (`npx wrangler versions upload`); su enlace aparece en el registro de la compilación |
 
-Cada push dispara una compilación. Las vistas previas también son públicas:
-quien tenga el enlace puede verlas.
+Las vistas previas requieren **Settings → Domains & Routes → Preview URLs**
+activado. Son públicas para quien tenga el enlace.
 
 ### Dominio propio (opcional)
 
-En el proyecto: **Custom domains → Set up a custom domain**. Si el dominio se
-gestiona en Cloudflare, el DNS se configura solo; si no, Cloudflare indica el
-registro `CNAME` que hay que crear. El certificado HTTPS es gratuito y automático.
+**Settings → Domains & Routes → Add → Custom domain**. Para Workers, el dominio
+debe estar gestionado en la misma cuenta de Cloudflare (sus DNS apuntando a
+Cloudflare). El certificado HTTPS es gratuito y automático.
+
+### Errores frecuentes
+
+| Mensaje en el registro | Causa | Solución |
+|---|---|---|
+| `Could not detect a directory containing static files` | Se clonó una rama sin código, o falta el *Build command* | Fusionar el código en `main`; *Build command* = `npm run build` |
+| El nombre del Worker no coincide con la configuración | `name` de `wrangler.jsonc` distinto al del panel | Igualar `name` al nombre del Worker |
+| Versión de Node incompatible | La imagen de compilación no tomó `.nvmrc` | Variable `NODE_VERSION` = `24.21.0` |
 
 ### Revisar la exportación en local
 

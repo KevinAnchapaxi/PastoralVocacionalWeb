@@ -88,7 +88,7 @@ caben en una rejilla de 3 × 2 y quedan todos a la vista.
 - **Contenido separado del diseño.** Los componentes no tienen texto fijo: todo
   sale de `src/data/`. Cambiar contenido no requiere tocar componentes.
 - **100 % estático.** `next.config.ts` usa `output: "export"` y `next build`
-  genera el sitio completo en `out/`, que publica Cloudflare Pages. Cualquier
+  genera el sitio completo en `out/`, que publica Cloudflare. Cualquier
   función de servidor (envío del formulario, Instagram API) tendrá que resolverse
   con un servicio externo o con Cloudflare Workers.
 - **Server Components por defecto.** Solo son Client Components `Navbar` (menú
