@@ -8,9 +8,9 @@
 |---|---|---|
 | Repositorio | Activo | GitHub: `KevinAnchapaxi/CloudinaryPastoralVocacionalWeb` |
 | Imágenes | Activo | Cloudinary, plan gratuito, cloud name `lywalzfq`, carpetas dinámicas |
-| Hosting del sitio | **Pendiente** | La planificación inicial menciona Azure Static Web Apps como opción |
-| Dominio y DNS | **Pendiente** | — |
-| CI/CD | **Pendiente** | Hoy lint, pruebas y build se ejecutan a mano |
+| Hosting del sitio | **Preparado** | Cloudflare Pages, plan gratuito; falta crear el proyecto (ver «Hosting») |
+| Dominio y DNS | **Pendiente** | Mientras tanto, subdominio gratuito `*.pages.dev` |
+| CI/CD | **Parcial** | Cloudflare compila y publica en cada push; lint y pruebas se ejecutan a mano |
 | Instagram | Preparado | Embeds oficiales; falta la cuenta y las publicaciones (`src/data/instagram.ts`) |
 | Videos | Pendiente | YouTube o archivos en `public/video/` (ver guía de usuario) |
 | Base de datos, correo, analítica | No aplica | Fuera de alcance en esta fase |
@@ -119,15 +119,73 @@ Protección de Datos Personales del Ecuador.
 - No subir videos a Cloudinary con el plan gratuito: un video consume el cupo
   mensual mucho más rápido que las fotos (ver «Cupo del plan gratuito»).
 
-## Requisitos para el hosting (cuando se defina)
+## Hosting: Cloudflare Pages
 
-- Servir los archivos generados por `next build`. Todas las rutas son estáticas.
-- Definir `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` en el entorno de compilación si se
-  usan IDs públicos.
-- Si se elige un hosting solo estático (p. ej. Azure Static Web Apps en modo
-  estático), activar `output: "export"` en `next.config.ts`. Las fotos de
-  Cloudinary no se ven afectadas; los logos de `/public` necesitarían
-  `images.unoptimized: true` o un loader propio, porque la exportación estática
-  no incluye el optimizador de Next.js.
-- Publicar automáticamente desde `main` y generar entornos de vista previa desde
-  `DEV_KA` o desde cada pull request.
+Decisión documentada en
+[decisiones/0002-hosting-cloudflare-pages.md](decisiones/0002-hosting-cloudflare-pages.md).
+
+### Cómo está preparado el proyecto
+
+- `next.config.ts` usa `output: "export"`: `npm run build` genera el sitio
+  completo en `out/` (HTML, CSS, JS e imágenes), sin servidor.
+- Sin servidor no existe el optimizador de imágenes de Next.js:
+  - las fotos se sirven desde Cloudinary con su loader (`src/lib/cloudinary.ts`);
+  - los logos usan versiones WebP ya reducidas en `public/brand/*.webp`
+    (los PNG originales se conservan como fuente);
+  - una foto en `/public` se publicaría tal cual, sin redimensionar: por eso
+    las fotos van en Cloudinary.
+- `public/_headers` define cabeceras de seguridad y la caché de un año para
+  `/_next/static/*` (archivos con hash en el nombre).
+- La versión de Node se toma de `.nvmrc`.
+
+### Crear el proyecto (una sola vez)
+
+1. **Llevar el código a `main`.** Hoy `main` solo tiene el commit inicial y su
+   compilación fallaría. Abrir en GitHub un pull request `DEV_KA → main` y
+   fusionarlo.
+2. Crear una cuenta gratuita en <https://dash.cloudflare.com>, idealmente con el
+   correo institucional de la pastoral.
+3. Ir a **Workers & Pages → Create → Pages → Connect to Git** y autorizar
+   GitHub. Elegir el repositorio `KevinAnchapaxi/PastoralVocacionalWeb`.
+4. Configurar la compilación:
+
+   | Campo | Valor |
+   |---|---|
+   | Production branch | `main` |
+   | Framework preset | `Next.js (Static HTML Export)` |
+   | Build command | `npm run build` |
+   | Build output directory | `out` |
+
+5. En **Environment variables** (producción y vista previa):
+
+   | Variable | Valor |
+   |---|---|
+   | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | `lywalzfq` |
+   | `NODE_VERSION` | `24.21.0` (solo si la compilación no toma `.nvmrc`) |
+
+6. **Save and Deploy.** La web queda en `https://<proyecto>.pages.dev`.
+
+### Ramas y vistas previas
+
+| Rama | Resultado |
+|---|---|
+| `main` | Producción: `https://<proyecto>.pages.dev` |
+| `DEV_KA` y demás ramas | Vista previa con su propio enlace, p. ej. `https://dev-ka.<proyecto>.pages.dev` |
+
+Cada push dispara una compilación. Las vistas previas también son públicas:
+quien tenga el enlace puede verlas.
+
+### Dominio propio (opcional)
+
+En el proyecto: **Custom domains → Set up a custom domain**. Si el dominio se
+gestiona en Cloudflare, el DNS se configura solo; si no, Cloudflare indica el
+registro `CNAME` que hay que crear. El certificado HTTPS es gratuito y automático.
+
+### Revisar la exportación en local
+
+```powershell
+npm run build
+npx serve out     # http://localhost:3000, igual que en Cloudflare
+```
+
+`next start` no se usa: no funciona con `output: "export"`.

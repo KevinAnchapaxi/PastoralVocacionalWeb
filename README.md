@@ -31,8 +31,8 @@ npm run dev        # servidor local de desarrollo
 npm run lint       # análisis estático
 npm test           # pruebas en modo no interactivo
 npm run test:watch # pruebas durante el desarrollo
-npm run build      # compilación optimizada de producción
-npm run start      # ejecución de la compilación de producción
+npm run build      # exportación estática de producción en out/
+npx serve out      # revisar la exportación como en el hosting
 ```
 
 ## Contenido, fotos y videos
@@ -60,11 +60,13 @@ Cloudinary no se necesitan y no deben versionarse.
 - `main`: versión estable. `DEV_KA`: rama de desarrollo.
 - Los cambios se hacen en `DEV_KA` y llegan a `main` mediante pull request, con
   `npm run lint`, `npm test` y `npm run build` en verde.
+- Publicación en Cloudflare Pages: `main` es producción y `DEV_KA` genera una
+  vista previa. Configuración en [docs/infraestructura.md](docs/infraestructura.md#hosting-cloudflare-pages).
 
 ## Base técnica
 
 - Next.js 16 con App Router, React 19 y TypeScript estricto.
-- Renderizado estático por defecto.
+- Exportación 100 % estática (`output: "export"`), sin servidor.
 - CSS Modules, Tailwind CSS y variables CSS del Manual de Marca.
 - `next/image` con loader de Cloudinary para fotos de contenido.
 - Vitest y Testing Library para pruebas de componentes.

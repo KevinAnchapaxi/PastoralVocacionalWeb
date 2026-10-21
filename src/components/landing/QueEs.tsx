@@ -19,7 +19,7 @@ export function QueEs() {
           {/* VIDEO PENDIENTE: completa queEs.video.src en src/data/landing.ts */}
           <Video src={queEs.video.src} poster={queEs.video.poster} title={queEs.video.titulo} />
           <div className={styles.media_badge}>
-            <Image src="/brand/isotipo.png" alt="" width={32} height={32} />
+            <Image src="/brand/isotipo.webp" unoptimized alt="" width={32} height={32} />
             Desde {site.anioFundacion} en Quito
           </div>
         </div>

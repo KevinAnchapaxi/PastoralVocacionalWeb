@@ -87,9 +87,10 @@ caben en una rejilla de 3 × 2 y quedan todos a la vista.
 
 - **Contenido separado del diseño.** Los componentes no tienen texto fijo: todo
   sale de `src/data/`. Cambiar contenido no requiere tocar componentes.
-- **Estático por defecto.** Todas las rutas se prerenderizan (`○ Static` en
-  `next build`). Solo se añadirán capacidades de servidor cuando un caso de uso
-  lo exija (formulario de contacto, integración con Instagram).
+- **100 % estático.** `next.config.ts` usa `output: "export"` y `next build`
+  genera el sitio completo en `out/`, que publica Cloudflare Pages. Cualquier
+  función de servidor (envío del formulario, Instagram API) tendrá que resolverse
+  con un servicio externo o con Cloudflare Workers.
 - **Server Components por defecto.** Solo son Client Components `Navbar` (menú
   móvil y sección activa), `ContentImage` (el `loader` de `next/image` es una función y no puede
   pasarse desde un Server Component) e `InstagramEmbeds` (carga diferida del
@@ -104,7 +105,7 @@ caben en una rejilla de 3 × 2 y quedan todos a la vista.
 | Valor en `landing.ts` | Ejemplo | Quién optimiza |
 |---|---|---|
 | Vacío | `""` | Nadie: se muestra un marcador con el isotipo |
-| Ruta local | `/brand/isotipo.png` | Optimizador de Next.js |
+| Ruta local | `/fotos/retiro.jpg` | Nadie: se sirve tal cual (`unoptimized`), por eso las fotos van en Cloudinary |
 | URL de Cloudinary | `https://res.cloudinary.com/<cuenta>/image/upload/v1/pastoral/retiro.jpg` | Cloudinary |
 | ID público | `pastoral/retiro` (requiere `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`) | Cloudinary |
 
@@ -114,11 +115,23 @@ elige del `srcset` el ancho adecuado y Cloudinary entrega WebP o AVIF según lo
 que soporte. Next.js no vuelve a procesar estas imágenes, así que:
 
 - no se duplica el trabajo de optimización ni el tráfico;
-- el sitio sigue siendo compatible con una exportación 100 % estática
-  (`output: "export"`), donde el optimizador de Next.js no está disponible.
+- funciona en la exportación estática, donde el optimizador de Next.js no existe.
 
-Los logos de `public/brand/` y los marcadores siguen usando `next/image` sin
-loader personalizado.
+Los logos usan `next/image` con `unoptimized` y versiones WebP ya reducidas
+(`public/brand/*.webp`, de 12 a 83 KB) generadas a partir de los PNG originales,
+que se conservan como fuente de marca:
+
+| Archivo web | Origen | Tamaño |
+|---|---|---|
+| `logotipo-principal.webp` | `logotipo-principal.png` | 148 × 160 (barra: 56–68 px de alto) |
+| `logotipo-negativo-blanco.webp` | `logotipo-negativo-blanco.png` | 557 × 600 (portada, testimonios, pie) |
+| `isotipo.webp` | `isotipo.png` | 400 × 403 (marcadores, insignia, avatares) |
+
+Para regenerarlos tras un cambio de logo (con FFmpeg):
+
+```powershell
+ffmpeg -i public/brand/isotipo.png -vf "scale=400:-1:flags=lanczos" -c:v libwebp -quality 90 -pix_fmt yuva420p public/brand/isotipo.webp
+```
 
 Decisión documentada en
 [decisiones/0001-imagenes-en-cloudinary.md](decisiones/0001-imagenes-en-cloudinary.md).

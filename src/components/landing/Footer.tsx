@@ -12,7 +12,8 @@ export function Footer() {
       <div className={`${styles.container} ${styles.footer_grid}`}>
         <div className={styles.footer_brand}>
           <Image
-            src="/brand/logotipo-negativo-blanco.png"
+            src="/brand/logotipo-negativo-blanco.webp"
+            unoptimized
             alt={`${site.nombre}, ${site.organizacion}`}
             width={833}
             height={898}

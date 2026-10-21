@@ -8,7 +8,7 @@ export function Testimonios() {
   return (
     <section id="testimonios" className={`${styles.section} ${styles.testimonios}`}>
       <div className={styles.testimonios_mark} aria-hidden="true">
-        <Image src="/brand/logotipo-negativo-blanco.png" alt="" width={833} height={898} />
+        <Image src="/brand/logotipo-negativo-blanco.webp" unoptimized alt="" width={833} height={898} />
       </div>
       <div className={styles.container}>
         <SectionHeading kicker={testimonios.kicker} title={testimonios.titulo} lead={testimonios.lead} center dark />
@@ -32,7 +32,7 @@ export function Testimonios() {
                     {t.foto ? (
                       <ContentImage src={t.foto} alt="" fill sizes="48px" style={{ objectFit: "cover" }} />
                     ) : (
-                      <Image src="/brand/isotipo.png" alt="" width={30} height={30} />
+                      <Image src="/brand/isotipo.webp" unoptimized alt="" width={30} height={30} />
                     )}
                   </div>
                   <div>

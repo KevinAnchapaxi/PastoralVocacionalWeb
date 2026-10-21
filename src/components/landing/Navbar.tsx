@@ -38,7 +38,8 @@ export function Navbar() {
       <div className={`${styles.container} ${styles.nav_inner}`}>
         <a href="#inicio" aria-label={`${site.nombre}, ${site.organizacion}`}>
           <Image
-            src="/brand/logotipo-principal.png"
+            src="/brand/logotipo-principal.webp"
+            unoptimized
             alt={`${site.nombre}, ${site.organizacion}`}
             width={580}
             height={627}

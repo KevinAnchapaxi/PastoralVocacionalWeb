@@ -12,7 +12,7 @@ export function Hero() {
           <ContentImage src={hero.foto} alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
         ) : (
           <div className={styles.hero_bg_mark}>
-            <Image src="/brand/logotipo-negativo-blanco.png" alt="" width={833} height={898} priority />
+            <Image src="/brand/logotipo-negativo-blanco.webp" unoptimized alt="" width={833} height={898} priority />
           </div>
         )}
         <div className={styles.hero_veil} />

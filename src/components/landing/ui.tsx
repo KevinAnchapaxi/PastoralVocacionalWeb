@@ -95,7 +95,7 @@ export function Photo({
       role="img"
       aria-label={alt}
     >
-      <Image src="/brand/isotipo.png" alt="" width={160} height={161} className={styles.photo_mark} />
+      <Image src="/brand/isotipo.webp" unoptimized alt="" width={160} height={161} className={styles.photo_mark} />
       <span className={styles.photo_label}>{alt}</span>
     </div>
   );
