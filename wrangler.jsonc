@@ -5,6 +5,10 @@
   // Debe coincidir con el nombre del Worker en el panel de Cloudflare.
   "name": "pastoralvocacionalweb",
   "compatibility_date": "2025-09-01",
+  // Direcciones públicas: producción en pastoralvocacionalweb.kerukevin.workers.dev
+  // y vistas previas por versión (*-pastoralvocacionalweb.kerukevin.workers.dev).
+  "workers_dev": true,
+  "preview_urls": true,
   "build": {
     "command": "npm run build"
   },

@@ -8,7 +8,7 @@
 |---|---|---|
 | Repositorio | Activo | GitHub: `KevinAnchapaxi/CloudinaryPastoralVocacionalWeb` |
 | Imágenes | Activo | Cloudinary, plan gratuito, cloud name `lywalzfq`, carpetas dinámicas |
-| Hosting del sitio | **En configuración** | Cloudflare Workers con recursos estáticos, plan gratuito (ver «Hosting») |
+| Hosting del sitio | **Activo** | Cloudflare Workers con recursos estáticos, plan gratuito: <https://pastoralvocacionalweb.kerukevin.workers.dev> |
 | Dominio y DNS | **Pendiente** | Mientras tanto, subdominio gratuito `*.workers.dev` |
 | CI/CD | **Parcial** | Cloudflare compila y publica en cada push; lint y pruebas se ejecutan a mano |
 | Instagram | Preparado | Embeds oficiales; falta la cuenta y las publicaciones (`src/data/instagram.ts`) |
@@ -173,8 +173,12 @@ gratuitas y no consumen el cupo de solicitudes del plan gratuito.
    tener vistas previas de `DEV_KA`, activar las compilaciones de otras ramas.
 6. Solo si la compilación falla por la versión de Node: en
    **Settings → Build → Variables and secrets**, `NODE_VERSION` = `24.21.0`.
-7. Lanzar la compilación (**Deployments → Retry/Deploy**, o con un push). La web
-   queda en `https://pastoralvocacionalweb.<subdominio>.workers.dev`.
+7. En la pestaña **Domains** del Worker, activar **Production** y **Preview** en
+   *Worker URL* (si no, el panel muestra «No URLs enabled»). `wrangler.jsonc`
+   declara `workers_dev` y `preview_urls` para que no se desactiven al publicar.
+8. Lanzar la compilación (**Deployments → Retry/Deploy**, o con un push). La web
+   queda en <https://pastoralvocacionalweb.kerukevin.workers.dev> (subdominio de
+   la cuenta: `kerukevin`).
 
 ### Ramas y vistas previas
 
