@@ -1,0 +1,66 @@
+/* Tokens de la Pastoral Vocacional – Arquidiócesis de Quito.
+   Fuente: Manual de Marca (p. 9) + sistema de diseño. No cambies los cinco colores oficiales. */
+:root {
+  /* Paleta oficial */
+  --azul-mar-profundo: #182f71;
+  --azul-vocacional: #3b508b;
+  --rojo-compromiso: #e83e32;
+  --cafe-mision: #6a2800;
+  --blanco-decision: #ffffff;
+  /* Muestreados del manual (solo títulos grandes y la ola) */
+  --azul-titular: #17268e;
+  --azul-ola: #023b76;
+  --azul-ola-brillo: #0050b7;
+
+  /* Semánticos (tema claro) */
+  --surface: #ffffff;
+  --surface-tint: #eef1f8;
+  --surface-raised: #ffffff;
+  --ink: #1a1a1a;
+  --ink-muted: #4a4f5c;
+  --ink-brand: var(--azul-mar-profundo);
+  --link: var(--azul-vocacional);
+  --border: #c9d0e6;
+  --focus: var(--azul-vocacional);
+  --on-brand: #ffffff;
+  --on-brand-muted: #c9d0e6;
+
+  /* Espaciado (escala de 8px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radios */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  --shadow-card: 0 8px 24px rgba(24, 47, 113, 0.1);
+
+  /* Tipografía: next/font inyecta --font-poppins y --font-cormorant en <html> */
+  --font-sans: var(--font-poppins), "Segoe UI", Arial, sans-serif;
+  --font-serif: var(--font-cormorant), "Times New Roman", serif;
+
+  --container: 1200px;
+}
+
+/* Tema negativo (blanco sobre azul), como la versión en negativo del manual */
+[data-theme="negativo"] {
+  --surface: #182f71;
+  --surface-tint: #233d85;
+  --surface-raised: #3b508b;
+  --ink: #ffffff;
+  --ink-muted: #c9d0e6;
+  --ink-brand: #ffffff;
+  --link: #c9d0e6;
+  --border: #3b508b;
+  --focus: #ffffff;
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.35);
+}

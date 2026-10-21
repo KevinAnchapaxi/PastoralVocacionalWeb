@@ -1,2 +1,83 @@
 # PastoralVocacionalWeb
-Página web perteneciente a la pastoral vocacional de Quito
+
+Sitio público de la Pastoral Vocacional de la Arquidiócesis de Quito: una landing
+en español sobre Next.js, compilada como sitio estático. Las fotos de contenido se
+alojan en Cloudinary. Todavía no incluye CMS, formularios, autenticación ni
+infraestructura de despliegue.
+
+## Requisitos
+
+- Node.js 24 LTS (la versión de trabajo está indicada en `.nvmrc`).
+- npm 11 o posterior.
+- NVM para Windows, recomendado para seleccionar el runtime.
+
+## Ejecución local
+
+Selecciona Node.js 24 e instala exactamente las dependencias del lockfile:
+
+```powershell
+nvm use 24.21.0
+npm ci
+Copy-Item .env.example .env.local   # opcional: solo si usas IDs públicos de Cloudinary
+npm run dev
+```
+
+La aplicación estará disponible en [http://localhost:3000](http://localhost:3000).
+
+## Comandos
+
+```powershell
+npm run dev        # servidor local de desarrollo
+npm run lint       # análisis estático
+npm test           # pruebas en modo no interactivo
+npm run test:watch # pruebas durante el desarrollo
+npm run build      # exportación estática de producción en out/
+npx serve out      # revisar la exportación como en el hosting
+```
+
+## Contenido, fotos y videos
+
+- Todo el texto, los enlaces, las fotos y los videos están en `src/data/`:
+  `landing.ts` (general), `testimonios.ts`, `instagram.ts` y
+  `areas-pastorales.ts`.
+- Las fotos se suben a Cloudinary y se pegan como URL. Los videos se enlazan
+  desde YouTube o se guardan en `public/video/`. Un campo vacío muestra un
+  marcador.
+- Paso a paso para el equipo de la pastoral:
+  [docs/guia-de-usuario.md](docs/guia-de-usuario.md).
+
+## Variables de entorno
+
+| Variable | Obligatoria | Descripción |
+|---|---|---|
+| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Solo con IDs públicos | Cloud name de la cuenta de Cloudinary |
+
+Ver `.env.example`. No hay secretos en el proyecto: la API Key y el API Secret de
+Cloudinary no se necesitan y no deben versionarse.
+
+## Flujo de trabajo
+
+- `main`: versión estable. `DEV_KA`: rama de desarrollo.
+- Los cambios se hacen en `DEV_KA` y llegan a `main` mediante pull request, con
+  `npm run lint`, `npm test` y `npm run build` en verde.
+- Publicación en Cloudflare (Workers, sitio estático): `main` es producción y `DEV_KA` genera una
+  vista previa. Configuración en [docs/infraestructura.md](docs/infraestructura.md#hosting-cloudflare-workers-sitio-estático).
+
+## Base técnica
+
+- Next.js 16 con App Router, React 19 y TypeScript estricto.
+- Exportación 100 % estática (`output: "export"`), sin servidor.
+- CSS Modules, Tailwind CSS y variables CSS del Manual de Marca.
+- `next/image` con loader de Cloudinary para fotos de contenido.
+- Vitest y Testing Library para pruebas de componentes.
+- Código de aplicación dentro de `src/` con el alias `@/*`.
+
+## Documentación
+
+| Documento | Para quién |
+|---|---|
+| [Arquitectura](docs/arquitectura.md) | Desarrolladores |
+| [Infraestructura](docs/infraestructura.md) | Desarrolladores y responsables técnicos |
+| [Guía de usuario](docs/guia-de-usuario.md) | Equipo de la pastoral que actualiza fotos y textos |
+| [Decisiones de arquitectura](docs/decisiones/) | Registro de decisiones y sus motivos |
+| [Planificación inicial](docs/reportes/pastoral-vocacional-web/01-planificacion.md) | Contexto histórico |

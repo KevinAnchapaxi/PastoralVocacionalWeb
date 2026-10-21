@@ -1,0 +1,16 @@
+// Publicación en Cloudflare Workers como sitio estático (ver docs/infraestructura.md).
+// `npx wrangler deploy` (producción) y `npx wrangler versions upload` (vistas previas)
+// ejecutan primero `build.command`, que genera out/, y luego lo suben. No hay código de servidor.
+{
+  // Debe coincidir con el nombre del Worker en el panel de Cloudflare.
+  "name": "pastoralvocacionalweb",
+  "compatibility_date": "2025-09-01",
+  "build": {
+    "command": "npm run build"
+  },
+  "assets": {
+    "directory": "./out",
+    // Rutas inexistentes muestran out/404.html con estado 404.
+    "not_found_handling": "404-page"
+  }
+}
