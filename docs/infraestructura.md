@@ -94,7 +94,7 @@ Cloudflare R2 (sin costo de salida); el cambio se limita a
 
 | Variable | Dónde configurarla | Valor |
 |---|---|---|
-| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | `.env.local` en local; configuración del hosting en producción | Cloud name de la cuenta |
+| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | `.env.production` (versionado) para las compilaciones; `.env.local` para valores propios en local | Cloud name de la cuenta (`lywalzfq`) |
 
 Al ser `NEXT_PUBLIC_*`, se incrusta en la compilación: si cambia, hay que volver
 a compilar y publicar.
@@ -139,9 +139,13 @@ gratuitas y no consumen el cupo de solicitudes del plan gratuito.
     las fotos van en Cloudinary.
 - `public/_headers` define cabeceras de seguridad y la caché de un año para
   `/_next/static/*` (archivos con hash en el nombre).
-- `wrangler.jsonc` indica a Wrangler que publique la carpeta `out/` y que las
-  rutas inexistentes muestren `404.html`. Su campo `name` debe coincidir con el
-  nombre del Worker en el panel (hoy `pastoralvocacionalweb`).
+- `wrangler.jsonc` hace que Wrangler ejecute `npm run build` (`build.command`)
+  antes de publicar la carpeta `out/`, y que las rutas inexistentes muestren
+  `404.html`. Así funcionan los comandos por defecto de Cloudflare sin configurar
+  nada en el panel. Su campo `name` debe coincidir con el nombre del Worker
+  (hoy `pastoralvocacionalweb`).
+- `.env.production` (versionado) fija `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`; es un
+  dato público, no un secreto.
 - La versión de Node se toma de `.nvmrc`.
 
 ### Crear el proyecto (una sola vez)
@@ -154,25 +158,21 @@ gratuitas y no consumen el cupo de solicitudes del plan gratuito.
    correo institucional de la pastoral.
 3. **Workers & Pages → Create → Import a repository**, autorizar GitHub y
    elegir `KevinAnchapaxi/PastoralVocacionalWeb`.
-4. Configuración de compilación (al crear, o después en
-   **Settings → Build → Build configuration**):
+4. Dejar la configuración de compilación por defecto
+   (**Settings → Build → Build configuration**): la compilación la ejecuta
+   Wrangler.
 
    | Campo | Valor |
    |---|---|
-   | Build command | `npm run build` |
+   | Build command | vacío (si se pone `npm run build`, compila dos veces; funciona igual) |
    | Deploy command | `npx wrangler deploy` |
    | Non-production branch deploy command | `npx wrangler versions upload` |
    | Root directory | `/` (vacío) |
 
-5. **Settings → Build → Branch control**: rama de producción `main` y activar
-   las compilaciones de otras ramas (vistas previas de `DEV_KA`).
-6. **Settings → Build → Variables and secrets** (variables de compilación):
-
-   | Variable | Valor |
-   |---|---|
-   | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | `lywalzfq` |
-   | `NODE_VERSION` | `24.21.0` (solo si la compilación no toma `.nvmrc`) |
-
+5. **Settings → Build → Branch control**: rama de producción `main` y, para
+   tener vistas previas de `DEV_KA`, activar las compilaciones de otras ramas.
+6. Solo si la compilación falla por la versión de Node: en
+   **Settings → Build → Variables and secrets**, `NODE_VERSION` = `24.21.0`.
 7. Lanzar la compilación (**Deployments → Retry/Deploy**, o con un push). La web
    queda en `https://pastoralvocacionalweb.<subdominio>.workers.dev`.
 
@@ -196,7 +196,8 @@ Cloudflare). El certificado HTTPS es gratuito y automático.
 
 | Mensaje en el registro | Causa | Solución |
 |---|---|---|
-| `Could not detect a directory containing static files` | Se clonó una rama sin código, o falta el *Build command* | Fusionar el código en `main`; *Build command* = `npm run build` |
+| `Could not detect a directory containing static files` | Se clonó una rama sin código (sin `package.json` ni `wrangler.jsonc`) | Fusionar el código en `main` |
+| La compilación falla en 0 s sin registro | Configuración del Worker en el panel (p. ej. compilaciones de otras ramas desactivadas) | Revisar el registro en **Deployments**; activar las compilaciones de otras ramas |
 | El nombre del Worker no coincide con la configuración | `name` de `wrangler.jsonc` distinto al del panel | Igualar `name` al nombre del Worker |
 | Versión de Node incompatible | La imagen de compilación no tomó `.nvmrc` | Variable `NODE_VERSION` = `24.21.0` |
 
